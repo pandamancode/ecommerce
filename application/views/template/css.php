@@ -4,3 +4,4 @@
 <link href="<?=base_url()?>resource/css/popuo-box.css" rel="stylesheet" type="text/css" media="all" />
 <link rel="stylesheet" type="text/css" href="<?=base_url()?>resource/css/jquery-ui1.css">
 <link href="//fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i,800" rel="stylesheet">
+<link rel="stylesheet" href="https://lipis.github.io/bootstrap-sweetalert/dist/sweetalert.css" />

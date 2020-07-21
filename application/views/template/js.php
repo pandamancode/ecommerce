@@ -7,3 +7,4 @@
 <script src="<?=base_url()?>resource/js/move-top.js"></script>
 <script src="<?=base_url()?>resource/js/easing.js"></script>
 <script src="<?=base_url()?>resource/js/bootstrap.js"></script>
+<script src="https://lipis.github.io/bootstrap-sweetalert/dist/sweetalert.js"></script>

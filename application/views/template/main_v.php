@@ -8,15 +8,7 @@
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 	<meta name="keywords" content="Grocery Shoppy Responsive web template, Bootstrap Web Templates, Flat Web Templates, Android Compatible web template, 
 Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, SonyEricsson, Motorola web design" />
-	<script>
-		addEventListener("load", function () {
-			setTimeout(hideURLbar, 0);
-		}, false);
-
-		function hideURLbar() {
-			window.scrollTo(0, 1);
-		}
-	</script>
+	
     <?php $this->load->view('template/css') ?>
     <?php $this->load->view('template/js') ?>
 </head>
@@ -34,9 +26,9 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 			<!-- header-bot-->
 			<div class="col-md-4 logo_agile">
 				<h1>
-					<a href="index.html">
-						<span>G</span>rocery
-						<span>S</span>hoppy
+					<a href="<?=base_url()?>home">
+						<span>G</span>rosir
+						<span>I</span>D
 						<img src="<?=base_url()?>resource/images/logo2.png" alt=" ">
 					</a>
 				</h1>
@@ -46,14 +38,19 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 			<div class="col-md-8 header">
 				<ul>
 					<li><span class="fa fa-phone" aria-hidden="true"></span> 001 234 5678</li>
-					<li><a href="#" data-toggle="modal" data-target="#myModal1"><span class="fa fa-unlock-alt" aria-hidden="true"></span> Sign In </a></li>
-					<li><a href="#" data-toggle="modal" data-target="#myModal2"><span class="fa fa-pencil-square-o" aria-hidden="true"></span> Sign Up </a></li>
-                </ul>
+					<?php if($this->session->userdata('logged_in')==true){ ?>
+						<li><a href="javascript:;"><span class="fa fa-user" aria-hidden="true"></span> Akun Saya </a></li>
+						<li><a href="<?=base_url()?>logout"><span class="fa fa-sign-out" aria-hidden="true"></span> Logout </a></li>
+					<?php }else{ ?>
+						<li><a href="javascript:;" class="btn-login"><span class="fa fa-unlock-alt" aria-hidden="true"></span> Sign In </a></li>
+						<li><a href="javascript:;" class="btn-register"><span class="fa fa-pencil-square-o" aria-hidden="true"></span> Sign Up </a></li>
+					<?php } ?>
+				</ul>
                 
 				<!-- search -->
 				<div class="agileits_search">
 					<form action="#" method="post">
-						<input name="Search" type="search" placeholder="How can we help you today?" required="">
+						<input name="cari_txt" type="search" placeholder="How can we help you today?" required="">
 						<button type="submit" class="btn btn-default" aria-label="Left Align">
 							<span class="fa fa-search" aria-hidden="true"> </span>
 						</button>
@@ -64,13 +61,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 				<!-- cart details -->
 				<div class="top_nav_right">
 					<div class="wthreecartaits wthreecartaits2 cart cart box_1">
-						<form action="#" method="post" class="last">
-							<input type="hidden" name="cmd" value="_cart">
-							<input type="hidden" name="display" value="1">
-							<button class="w3view-cart" type="submit" name="submit">
-								<i class="fa fa-cart-arrow-down fa-fw" aria-hidden="true"></i>
-							</button>
-						</form>
+						<button class="w3view-cart btn-opencart" type="button" name="submit"><i class="fa fa-cart-arrow-down fa-fw" aria-hidden="true"></i></button>
 					</div>
 				</div>
 				<!-- //cart details -->
@@ -132,13 +123,14 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 	<!-- copyright -->
 	<div class="copy-right">
 		<div class="container">
-			<p>© 2017 Grocery Shoppy. All rights reserved | Design by
+			<p>© 2020 Grosir ID. All rights reserved | Design by
 				<a href="http://w3layouts.com"> W3layouts.</a>
 			</p>
 		</div>
 	</div>
 	<!-- //copyright -->
-
+	
+	<div id="tempat-modal"></div>
 
 	<script>
 		$(document).ready(function () {
@@ -157,26 +149,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 		});
     </script>
     
-    <!--script>
-		paypalm.minicartk.render(); //use only unique class names other than paypalm.minicartk.Also Replace same class name in css and minicart.min.js
-
-		paypalm.minicartk.cart.on('checkout', function (evt) {
-			var items = this.items(),
-				len = items.length,
-				total = 0,
-				i;
-
-			// Count the number of each item in the cart
-			for (i = 0; i < len; i++) {
-				total += items[i].get('quantity');
-			}
-
-			if (total < 3) {
-				alert('The minimum order quantity is 3. Please add more to your shopping cart before checking out');
-				evt.preventDefault();
-			}
-		});
-    </script-->
+    
     
     <script>
 		//<![CDATA[ 
@@ -246,6 +219,68 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 		});
 	</script-->
 
+	<!--modal login & register -->
+	<script>
+		$(document).on("click", ".btn-login", function() {
+			var id = $(this).attr("data-id");
+			
+			$.ajax({
+				method: "POST",
+				url: "<?php echo base_url('Customer/Home/login'); ?>",
+				data: "id=" +id
+			})
+			.done(function(data) {
+				$('#tempat-modal').html(data);        
+				$('#md_login').modal('show');
+			})
+		})
+
+		$(document).on("click", ".btn-register", function() {
+			var id = $(this).attr("data-id");
+			
+			$.ajax({
+				method: "POST",
+				url: "<?php echo base_url('Customer/Home/register'); ?>",
+				data: "id=" +id
+			})
+			.done(function(data) {
+				$('#tempat-modal').html(data);        
+				$('#md_register').modal('show');
+			})
+		})
+
+		$(document).on("click", ".btn-opencart", function() {
+			var id = $(this).attr("data-id");
+			
+			$.ajax({
+				method: "POST",
+				url: "<?php echo base_url('Customer/Home/opencart'); ?>",
+				data: "id=" +id
+			})
+			.done(function(data) {
+				$('#tempat-modal').html(data);        
+				$('#md_opencart').modal('show');
+			})
+		})
+
+		<?php if ($this->session->flashdata('status')=='error'){ ?>
+		swal({
+			title: "Failed",
+			text: "<?=$this->session->flashdata('msg')?>",
+			timer: 1500,
+			showConfirmButton: false,
+			type: "<?=$this->session->flashdata('status')?>"
+		});
+		<?php }else if($this->session->flashdata('status')=='success'){ ?>
+		swal({
+			title: "Done",
+			text: "<?=$this->session->flashdata('msg')?>",
+			timer: 1500,
+			showConfirmButton: false,
+			type: "<?=$this->session->flashdata('status')?>"
+		});
+		<?php } ?>
+	</script>
 </body>
 
 </html>

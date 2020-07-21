@@ -1,7 +1,7 @@
 <div class="featured-section" id="projects">
     <div class="container">
         <!-- tittle heading -->
-        <h3 class="tittle-w3l">Special Offers
+        <h3 class="tittle-w3l">Produk Diskon
             <span class="heading-style">
                 <i></i>
                 <i></i>
